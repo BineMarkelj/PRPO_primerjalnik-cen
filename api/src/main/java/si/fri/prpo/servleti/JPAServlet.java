@@ -4,6 +4,7 @@ import si.fri.prpo.entitete.Izdelek;
 import si.fri.prpo.zrna.IzdelkiZrno;
 
 import javax.inject.Inject;
+import javax.persistence.criteria.CriteriaQuery;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -41,5 +42,28 @@ public class JPAServlet extends HttpServlet {
             pw.append("\n");
         }
 
+        pw.append("\n");
+        pw.append("\n");
+        pw.append("\n");
+        pw.append("\n");
+
+        //Izpis s CriteriaAPI
+        List<Izdelek> izdelkiCriteriaAPI = izdelkiZrno.getIzdelkiCriteriaAPI();
+        pw.append("Izpis vseh izdelkov v bazi z uporabo CriteriaAPI:\n");
+
+        for (int i = 0; i < izdelkiCriteriaAPI.size(); i++) {
+            Izdelek izdelekCriteriaAPI = izdelkiCriteriaAPI.get(i);
+
+            Integer id = izdelekCriteriaAPI.getId();
+            String ime = izdelekCriteriaAPI.getIme();
+            String opis = izdelekCriteriaAPI.getOpis();
+            int cena = izdelekCriteriaAPI.getCena();
+
+            pw.append("ID: " + id);
+            pw.append(", Ime: " + ime);
+            pw.append(", Opis: " + opis);
+            pw.append(", Cena: " + cena);
+            pw.append("\n");
+        }
     }
 }
