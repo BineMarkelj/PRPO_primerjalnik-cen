@@ -11,7 +11,7 @@ import java.util.List;
                 @NamedQuery(name = "Kategorija.getById",
                         query = "SELECT k FROM kategorija k WHERE k.id = :id"),
                 @NamedQuery(name = "Kategorija.getByIme",
-                        query = "SELECT k FROM kategorija k WHERE k.ime <= :ime"),
+                        query = "SELECT k FROM kategorija k WHERE k.id < :id1 AND k.id > :id2"),
                 @NamedQuery(name = "Kategorija.getIfIncludesIzdlelek",
                         query = "SELECT k FROM kategorija k WHERE k.ime LIKE :niz")
         })

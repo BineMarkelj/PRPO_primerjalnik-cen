@@ -11,7 +11,7 @@ import java.util.List;
                 @NamedQuery(name = "Trgovina.getById",
                         query = "SELECT t FROM trgovina t WHERE t.id = :id"),
                 @NamedQuery(name = "Trgovina.getByIme",
-                        query = "SELECT t FROM trgovina t WHERE t.ime <= :ime"),
+                        query = "SELECT t FROM trgovina t WHERE t.ime = :ime"),
                 @NamedQuery(name = "Trgovina.getIfIncludesIzdelek",
                         query = "SELECT t FROM trgovina t WHERE t.ime LIKE :niz")
         })

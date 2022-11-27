@@ -24,7 +24,7 @@ public class JPAServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         PrintWriter pw = resp.getWriter();
 
-        List<Izdelek> izdelki = izdelkiZrno.getIzdelki();
+        List<Izdelek> izdelki = izdelkiZrno.getAllIzdelki();
         pw.append("Izpis vseh izdelkov v bazi:\n");
 
         for (int i = 0; i < izdelki.size(); i++) {
@@ -33,7 +33,7 @@ public class JPAServlet extends HttpServlet {
             Integer id = izdelek.getId();
             String ime = izdelek.getIme();
             String opis = izdelek.getOpis();
-            int cena = izdelek.getCena();
+            float cena = izdelek.getCena();
 
             pw.append("ID: " + id);
             pw.append(", Ime: " + ime);
@@ -48,7 +48,7 @@ public class JPAServlet extends HttpServlet {
         pw.append("\n");
 
         //Izpis s CriteriaAPI
-        List<Izdelek> izdelkiCriteriaAPI = izdelkiZrno.getIzdelkiCriteriaAPI();
+        List<Izdelek> izdelkiCriteriaAPI = izdelkiZrno.getAllIzdelkiCriteriaAPI();
         pw.append("Izpis vseh izdelkov v bazi z uporabo CriteriaAPI:\n");
 
         for (int i = 0; i < izdelkiCriteriaAPI.size(); i++) {
@@ -57,7 +57,7 @@ public class JPAServlet extends HttpServlet {
             Integer id = izdelekCriteriaAPI.getId();
             String ime = izdelekCriteriaAPI.getIme();
             String opis = izdelekCriteriaAPI.getOpis();
-            int cena = izdelekCriteriaAPI.getCena();
+            float cena = izdelekCriteriaAPI.getCena();
 
             pw.append("ID: " + id);
             pw.append(", Ime: " + ime);

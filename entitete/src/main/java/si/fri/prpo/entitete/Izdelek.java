@@ -24,7 +24,7 @@ public class Izdelek {
 
     private String opis;
 
-    private Integer cena;
+    private float cena;
 
     @ManyToOne
     @JoinColumn(name = "kategorija_id")
@@ -61,11 +61,11 @@ public class Izdelek {
         this.opis = opis;
     }
 
-    public Integer getCena() {
+    public float getCena() {
         return cena;
     }
 
-    public void setCena(Integer cena) {
+    public void setCena(float cena) {
         this.cena = cena;
     }
 

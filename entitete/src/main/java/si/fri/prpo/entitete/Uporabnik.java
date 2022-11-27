@@ -1,6 +1,7 @@
 package si.fri.prpo.entitete;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity(name = "uporabnik")
 @NamedQueries(value =
