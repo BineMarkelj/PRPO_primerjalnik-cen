@@ -71,7 +71,7 @@ public class KategorijeZrno {
 
     //metoda za brisanje obstoječe kategorije na podlagi IDja
     @Transactional
-    public boolean removeKategorija(int id) {
+    public boolean deleteKategorija(int id) {
         Kategorija kategorija = em.find(Kategorija.class, id);
 
         if (kategorija != null) {

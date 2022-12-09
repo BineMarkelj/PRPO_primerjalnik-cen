@@ -1,11 +1,7 @@
 package si.fri.prpo.zrna;
 
-import org.eclipse.persistence.internal.libraries.antlr.runtime.misc.IntArray;
 import org.jboss.logging.Logger;
-import si.fri.prpo.dtos.IzdelekDto;
-import si.fri.prpo.dtos.KategorijaDto;
-import si.fri.prpo.dtos.TrgovinaDto;
-import si.fri.prpo.dtos.UporabnikDto;
+import si.fri.prpo.dtos.*;
 import si.fri.prpo.entitete.Izdelek;
 import si.fri.prpo.entitete.Kategorija;
 import si.fri.prpo.entitete.Trgovina;
@@ -57,59 +53,174 @@ public class UpravljanjeIzdelkovZrno {
 
 
     @Transactional
-    public Izdelek ustvariIzdelek(IzdelekDto izdelekDto) {
+    public IzdelekDto ustvariIzdelek(Izdelek izdelek) {
 
-        Izdelek izdelek = new Izdelek();
-        if (izdelekDto != null) {
-            izdelek.setIme(izdelekDto.getIme());
-            izdelek.setOpis(izdelekDto.getOpis());
-            izdelek.setCena(izdelekDto.getCena());
-            izdelek.setKategorija(izdelekDto.getKategorija());
-            izdelek.setTrgovina(izdelekDto.getTrgovina());
+        IzdelekDto izdelekDto = new IzdelekDto();
+        boolean napaka = false;
 
-            if (izdelek != null) {
+        if (izdelek != null) {
+
+            //ime
+            if (izdelek.getIme() == null || izdelek.getIme().isEmpty()) {
+                log.info("Atribut podanega izdelka je prazen.");
+                napaka = true;
+            } else {
+                izdelekDto.setIme(izdelek.getIme());
+            }
+
+            //opis
+            if (izdelek.getOpis() == null || izdelek.getOpis().isEmpty()) {
+                log.info("Atribut podanega izdelka je prazen.");
+                napaka = true;
+            } else {
+                izdelekDto.setOpis(izdelek.getOpis());
+            }
+
+            //cena
+            if (izdelek.getCena() == 0.0f) {
+                log.info("Atribut podanega izdelka je prazen.");
+                napaka = true;
+            } else {
+                izdelekDto.setCena(izdelek.getCena());
+            }
+
+            //id
+            if (izdelek.getId() == null) {
+                log.info("Atribut podanega izdelka je prazen.");
+                napaka = true;
+            } else {
+                izdelekDto.setId(izdelek.getId());
+            }
+
+            //kategorija
+            if (izdelek.getKategorija() == null) {
+                log.info("Atribut podanega izdelka je prazen.");
+                napaka = true;
+            } else {
+                izdelekDto.setKategorija(izdelek.getKategorija());
+            }
+
+            //trgovina
+            if (izdelek.getTrgovina() == null) {
+                log.info("Atribut podanega izdelka je prazen.");
+                napaka = true;
+            } else {
+                izdelekDto.setTrgovina(izdelek.getTrgovina());
+            }
+
+            //preveri če kategorija obstaja / ustvari novo
+            if (izdelek.getKategorija() != null) {
+                Kategorija kategorija = izdelek.getKategorija();
+                Integer id = kategorija.getId();
+                Kategorija kategorijaObstaja = kategorijeZrno.getKategorija(id);
+
+                if (kategorijaObstaja == null) {
+                    kategorijeZrno.createKategorija(kategorija);
+                    log.info("Ustvarjena nova kategorija.");
+                }
+            }
+
+            //preveri če trgovina obstaja / ustvari novo
+            if (izdelek.getTrgovina() != null) {
+                Trgovina trgovina = izdelek.getTrgovina();
+                Integer id = trgovina.getId();
+                Trgovina trgovinaObstaja = trgovineZrno.getTrgovina(id);
+
+                if (trgovinaObstaja == null) {
+                    trgovineZrno.createTrgovina(trgovina);
+                    log.info("Ustvarjena nova trgovina.");
+                }
+            }
+
+
+            if (!napaka) {
                 em.persist(izdelek);
             } else {
-                log.info("Izdelka ni bilo mogoče shraniti v podatkovno bazo.");
+                log.info("Izdelka ni bilo mogoče shraniti v bazo podatkov.");
             }
+
+        } else {
+            log.info("Atributi podanega izdelka so prazni.");
         }
 
-        return izdelek;
+        return izdelekDto;
     }
 
 
     @Transactional
-    public Uporabnik ustvariUporabnika(UporabnikDto uporabnikDto) {
+    public UporabnikDto ustvariUporabnika(Uporabnik uporabnik) {
 
-        Uporabnik uporabnik = new Uporabnik();
-        if (uporabnikDto != null) {
-            uporabnik.setIme(uporabnikDto.getIme());
-            uporabnik.setPriimek(uporabnikDto.getPriimek());
-            uporabnik.setUporabniskoIme(uporabnikDto.getUporabniksoIme());
-            uporabnik.setEmail(uporabnikDto.getEmail());
+        UporabnikDto uporabnikDto = new UporabnikDto();
+        boolean napaka = false;
+        if (uporabnik != null) {
 
-            if (uporabnik != null) {
+            //ime
+            if (uporabnik.getIme() == null || uporabnik.getIme().isEmpty()) {
+                log.info("Atribut podanega uporabnika je prazen.");
+                napaka = true;
+            } else {
+                uporabnikDto.setIme(uporabnik.getIme());
+            }
+
+            //priimek
+            if (uporabnik.getPriimek() == null || uporabnik.getPriimek().isEmpty()) {
+                log.info("Atribut podanega uporabnika je prazen.");
+                napaka = true;
+            } else {
+                uporabnikDto.setPriimek(uporabnik.getPriimek());
+            }
+
+            //uporabniska ime
+            if (uporabnik.getUporabniskoIme() == null || uporabnik.getUporabniskoIme().isEmpty()) {
+                log.info("Atribut podanega uporabnika je prazen.");
+                napaka = true;
+            } else {
+                uporabnikDto.setUporabniksoIme(uporabnik.getUporabniskoIme());
+            }
+
+            //email
+            if (uporabnik.getEmail() == null || uporabnik.getEmail().isEmpty()) {
+                log.info("Atribut podanega uporabnika je prazen.");
+                napaka = true;
+            } else {
+                uporabnikDto.setEmail(uporabnik.getEmail());
+            }
+
+            //id
+            if (uporabnik.getId() == null) {
+                log.info("Atribut podanega uporabnika je prazen.");
+                napaka = true;
+            } else {
+                uporabnikDto.setId(uporabnik.getId());
+            }
+
+
+            if (!napaka) {
                 em.persist(uporabnik);
             } else {
-                log.info("Uporabnika ni bilo mogoče shraniti v podatkovno bazo.");
+                log.info("Izdelka ni bilo mogoče shraniti v bazo podatkov.");
             }
+        } else {
+            log.info("Atributi podanega uporabnika so prazni.");
         }
 
-        return uporabnik;
+        return uporabnikDto;
     }
 
 
-    public float vrniRazlikoCen(IzdelekDto izdelekDto1, IzdelekDto izdelekDto2) {
-        float cena1 = izdelekDto1.getCena();
-        float cena2 = izdelekDto2.getCena();
+    public IzdelkaCenaRazlikaDto vrniRazlikoCen(IzdelkaCenaDto izdelkaCenaDto) {
+        float cena1 = izdelkaCenaDto.getCena1();
+        float cena2 = izdelkaCenaDto.getCena2();
 
-        float razlikaCen = cena2 - cena1;
-        return razlikaCen;
+        float razlikaCen = Math.abs(cena2 - cena1);
+        IzdelkaCenaRazlikaDto izdelkaCenaRazlikaDto = new IzdelkaCenaRazlikaDto();
+        izdelkaCenaRazlikaDto.setRazlika(razlikaCen);
+        return izdelkaCenaRazlikaDto;
     }
 
 
-    public float povpracnaCenaIzdelkovSKategorijo(KategorijaDto kategorijaDto) {
-        Integer kategorijaId = kategorijaDto.getId();
+    public KategorijaPovprecjeCenDto povpracnaCenaIzdelkovSKategorijo(KategorijaCenaDto kategorijaCenaDto) {
+        Integer kategorijaId = kategorijaCenaDto.getId();
         //String kategorijaIme = kategorijaDto.getIme();
         Kategorija kategorija = kategorijeZrno.getKategorija(kategorijaId);
         kategorijaId = kategorija.getId();
@@ -132,12 +243,14 @@ public class UpravljanjeIzdelkovZrno {
         }
 
         float povpracnaCenaKategorije = vsotaCen / steviloIzdelkov;
-        return povpracnaCenaKategorije;
+        KategorijaPovprecjeCenDto kategorijaPovprecjeCenDto = new KategorijaPovprecjeCenDto();
+        kategorijaPovprecjeCenDto.setPovpracje(povpracnaCenaKategorije);
+        return kategorijaPovprecjeCenDto;
     }
 
 
-    public float povpracnaCenaIzdelkovVTrgovini(TrgovinaDto trgovinaDto) {
-        Integer trgovinaId = trgovinaDto.getId();
+    public TrgovinaPovprecjeCenDto povpracnaCenaIzdelkovVTrgovini(TrgovinaCeneDto trgovinaCeneDto) {
+        Integer trgovinaId = trgovinaCeneDto.getId();
         //String trgovinaIme = trgovinaDto.getIme();
         Trgovina trgovina = trgovineZrno.getTrgovina(trgovinaId);
         String trgovinaIme = trgovina.getIme();
@@ -159,6 +272,8 @@ public class UpravljanjeIzdelkovZrno {
         }
 
         float povpracnaCenaTrgovine = vsotaCen / steviloIzdelkov;
-        return povpracnaCenaTrgovine;
+        TrgovinaPovprecjeCenDto trgovinaPovprecjeCenDto = new TrgovinaPovprecjeCenDto();
+        trgovinaPovprecjeCenDto.setPovprecje(povpracnaCenaTrgovine);
+        return trgovinaPovprecjeCenDto;
     }
 }

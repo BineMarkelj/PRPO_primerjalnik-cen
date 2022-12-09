@@ -6,6 +6,7 @@ import si.fri.prpo.entitete.Izdelek;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -21,11 +22,13 @@ public class IzdelkiZrno {
 
     private Logger log = Logger.getLogger(IzdelkiZrno.class.getName());
 
+    @Inject UpravljanjeIzdelkovZrno upravljanjeIzdelkovZrno;
+
     //metoda PostConstruct, ki se izvede takoj po inicializaciji zrna
     @PostConstruct
     private void init() {
         UUID randomIDStart = UUID.randomUUID();
-        log.info("Zrno IzdelkiZrno se je inicializiralo. Naključni končni ID: " + randomIDStart);
+        log.info("Zrno IzdelkiZrno se je inicializiralo. Naključni začetni ID: " + randomIDStart);
     }
 
     //metoda PreDestroy, ki se izvede tik pred uničenjem zrna
@@ -72,7 +75,7 @@ public class IzdelkiZrno {
     @Transactional
     public Izdelek createIzdelek(Izdelek izdelek) {
         if (izdelek != null) {
-            em.persist(izdelek);
+            upravljanjeIzdelkovZrno.ustvariIzdelek(izdelek);
         }
 
         return izdelek;
@@ -82,8 +85,11 @@ public class IzdelkiZrno {
     @Transactional
     public Izdelek editIzdelek(int id, Izdelek izdelek) {
         Izdelek izdelekStar = em.find(Izdelek.class, id);
-        izdelek.setId(izdelekStar.getId());
-        em.merge(izdelek);
+
+        //if (izdelekStar != null) {
+            izdelek.setId(izdelekStar.getId());
+            em.merge(izdelek);
+        //}
 
         return izdelek;
     }

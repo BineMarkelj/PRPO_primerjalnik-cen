@@ -1,6 +1,7 @@
 package si.fri.prpo.entitete;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity(name = "izdelek")
 @NamedQueries(value =

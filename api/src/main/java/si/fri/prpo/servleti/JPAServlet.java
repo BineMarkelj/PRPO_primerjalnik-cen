@@ -65,5 +65,37 @@ public class JPAServlet extends HttpServlet {
             pw.append(", Cena: " + cena);
             pw.append("\n");
         }
+
+        pw.append("\n");
+        pw.append("\n");
+        pw.append("\n");
+        pw.append("\n");
+
+        Izdelek novIzdelek = izdelkiZrno.getIzdelek(1);
+        novIzdelek.setIme("Kruh");
+        izdelkiZrno.editIzdelek(1, novIzdelek);
+
+        izdelki = izdelkiZrno.getAllIzdelki();
+        pw.append("Izpis vseh izdelkov v bazi:\n");
+
+        for (int i = 0; i < izdelki.size(); i++) {
+            Izdelek izdelek = izdelki.get(i);
+
+            Integer id = izdelek.getId();
+            String ime = izdelek.getIme();
+            String opis = izdelek.getOpis();
+            float cena = izdelek.getCena();
+
+            pw.append("ID: " + id);
+            pw.append(", Ime: " + ime);
+            pw.append(", Opis: " + opis);
+            pw.append(", Cena: " + cena);
+            pw.append("\n");
+        }
+
+        pw.append("\n");
+        pw.append("\n");
+        pw.append("\n");
+        pw.append("\n");
     }
 }

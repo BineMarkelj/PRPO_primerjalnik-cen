@@ -1,6 +1,8 @@
 package si.fri.prpo.entitete;
 
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Entity(name = "kategorija")
@@ -23,6 +25,7 @@ public class Kategorija {
 
     private String ime;
 
+    @JsonbTransient
     @OneToMany(mappedBy = "kategorija", cascade = CascadeType.ALL)
     private List<Izdelek> izdelki;
 
