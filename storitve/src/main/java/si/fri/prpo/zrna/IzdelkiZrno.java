@@ -1,7 +1,10 @@
 package si.fri.prpo.zrna;
 
+import com.kumuluz.ee.rest.beans.QueryParameters;
+import com.kumuluz.ee.rest.utils.JPAUtils;
 import org.jboss.logging.Logger;
 import si.fri.prpo.entitete.Izdelek;
+import si.fri.prpo.izjeme.NeveljavenIzdelekIzjema;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -51,6 +54,20 @@ public class IzdelkiZrno {
         return izdelki;
     }
 
+    //metoda za pridobitev vseh izdelkov - z queryParameters iz rest
+    public List<Izdelek> getAllIzdelki(QueryParameters query) {
+        List<Izdelek> izdelki = JPAUtils.queryEntities(em, Izdelek.class, query);
+
+        return izdelki;
+    }
+
+    //metoda za pridobitev števila vrnjenih entitet s podanim querijem
+    public long getAllIzdelkiCount(QueryParameters query) {
+        long total_count = JPAUtils.queryEntitiesCount(em, Izdelek.class, query);
+
+        return total_count;
+    }
+
     public List<Izdelek> getAllIzdelkiCriteriaAPI() {
 
         CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -75,7 +92,11 @@ public class IzdelkiZrno {
     @Transactional
     public Izdelek createIzdelek(Izdelek izdelek) {
         if (izdelek != null) {
-            upravljanjeIzdelkovZrno.ustvariIzdelek(izdelek);
+            if (izdelek.getCena() < 0) {
+                throw new NeveljavenIzdelekIzjema("Napaka pri dodajanju novega izdelka: Cena izdelka ne sme biti negativna.");
+            } else {
+                upravljanjeIzdelkovZrno.ustvariIzdelek(izdelek);
+            }
         }
 
         return izdelek;
@@ -86,10 +107,16 @@ public class IzdelkiZrno {
     public Izdelek editIzdelek(int id, Izdelek izdelek) {
         Izdelek izdelekStar = em.find(Izdelek.class, id);
 
-        //if (izdelekStar != null) {
-            izdelek.setId(izdelekStar.getId());
-            em.merge(izdelek);
-        //}
+        if (izdelekStar != null) {
+            if (izdelek.getCena() < 0) {
+                throw new NeveljavenIzdelekIzjema("Napaka pri spreminjanju izdelka: Cena izdelka ne sme biti negativna.");
+            } else {
+                izdelek.setId(izdelekStar.getId());
+                em.merge(izdelek);
+            }
+        } else {
+            log.info("Izdelek s tem ID-jem ne obstaja.");
+        }
 
         return izdelek;
     }

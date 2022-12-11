@@ -1,6 +1,9 @@
 package si.fri.prpo.zrna;
 
+import com.kumuluz.ee.rest.beans.QueryParameters;
+import com.kumuluz.ee.rest.utils.JPAUtils;
 import org.jboss.logging.Logger;
+import si.fri.prpo.entitete.Kategorija;
 import si.fri.prpo.entitete.Trgovina;
 
 import javax.annotation.PostConstruct;
@@ -42,6 +45,20 @@ public class TrgovineZrno {
         return trgovine;
     }
 
+    //metoda za pridobitev vseh trgovin - z queryParameters iz rest
+    public List<Trgovina> getAllTrgovine(QueryParameters query) {
+        List<Trgovina> trgovine = JPAUtils.queryEntities(em, Trgovina.class, query);
+
+        return trgovine;
+    }
+
+    //metoda za pridobitev števila vrnjenih entitet s podanim querijem
+    public long getAllTrgovineCount(QueryParameters query) {
+        long total_count = JPAUtils.queryEntitiesCount(em, Kategorija.class, query);
+
+        return total_count;
+    }
+
     //metoda za pridobitev ene trgovine na podlagi IDja
     public Trgovina getTrgovina(int id) {
         Trgovina trgovina = em.find(Trgovina.class, id);
@@ -63,8 +80,13 @@ public class TrgovineZrno {
     @Transactional
     public Trgovina editTrgovina(int id, Trgovina trgovina) {
         Trgovina trgovinaStara = em.find(Trgovina.class, id);
-        trgovina.setId(trgovinaStara.getId());
-        em.merge(trgovina);
+
+        if (trgovinaStara != null) {
+            trgovina.setId(trgovinaStara.getId());
+            em.merge(trgovina);
+        } else {
+            log.info("Trgovina s tem ID-jem ne obstaja.");
+        }
 
         return trgovina;
     }

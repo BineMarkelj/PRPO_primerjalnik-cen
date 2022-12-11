@@ -1,6 +1,9 @@
 package si.fri.prpo.zrna;
 
+import com.kumuluz.ee.rest.beans.QueryParameters;
+import com.kumuluz.ee.rest.utils.JPAUtils;
 import org.jboss.logging.Logger;
+import si.fri.prpo.entitete.Izdelek;
 import si.fri.prpo.entitete.Kategorija;
 
 import javax.annotation.PostConstruct;
@@ -42,6 +45,20 @@ public class KategorijeZrno {
         return kategorije;
     }
 
+    //metoda za pridobitev vseh kategorij - z queryParameters iz rest
+    public List<Kategorija> getAllKategorije(QueryParameters query) {
+        List<Kategorija> kategorije = JPAUtils.queryEntities(em, Kategorija.class, query);
+
+        return kategorije;
+    }
+
+    //metoda za pridobitev števila vrnjenih entitet s podanim querijem
+    public long getAllKategorijeCount(QueryParameters query) {
+        long total_count = JPAUtils.queryEntitiesCount(em, Kategorija.class, query);
+
+        return total_count;
+    }
+
     //metoda za pridobitev ene kategorije na podlagi IDja
     public Kategorija getKategorija(int id) {
         Kategorija kategorija = em.find(Kategorija.class, id);
@@ -63,8 +80,13 @@ public class KategorijeZrno {
     @Transactional
     public Kategorija editKategorija(int id, Kategorija kategorija) {
         Kategorija kategorijaStara = em.find(Kategorija.class, id);
-        kategorija.setId(kategorijaStara.getId());
-        em.merge(kategorija);
+
+        if (kategorijaStara != null) {
+            kategorija.setId(kategorijaStara.getId());
+            em.merge(kategorija);
+        } else {
+            log.info("Kategorija s tem ID-jem ne obstaja.");
+        }
 
         return kategorija;
     }

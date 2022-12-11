@@ -1,6 +1,9 @@
 package si.fri.prpo.zrna;
 
+import com.kumuluz.ee.rest.beans.QueryParameters;
+import com.kumuluz.ee.rest.utils.JPAUtils;
 import org.jboss.logging.Logger;
+import si.fri.prpo.entitete.Kategorija;
 import si.fri.prpo.entitete.Uporabnik;
 
 import javax.annotation.PostConstruct;
@@ -46,6 +49,20 @@ public class UporabnikiZrno {
         return uporabniki;
     }
 
+    //metoda za pridobitev vseh uporabnikov - z queryParameters iz rest
+    public List<Uporabnik> getAllUporabniki(QueryParameters query) {
+        List<Uporabnik> uporabniki = JPAUtils.queryEntities(em, Uporabnik.class, query);
+
+        return uporabniki;
+    }
+
+    //metoda za pridobitev števila vrnjenih entitet s podanim querijem
+    public long getAllUporabnikiCount(QueryParameters query) {
+        long total_count = JPAUtils.queryEntitiesCount(em, Uporabnik.class, query);
+
+        return total_count;
+    }
+
     //metoda za pridobitev enega upoarbnika na podlagi IDja
     public Uporabnik getUporabnik(int id) {
         Uporabnik uporabnik = em.find(Uporabnik.class, id);
@@ -65,8 +82,13 @@ public class UporabnikiZrno {
     @Transactional
     public Uporabnik editUporabnik(int id, Uporabnik uporabnik) {
         Uporabnik uporabnikStari = em.find(Uporabnik.class, id);
-        uporabnik.setId(uporabnikStari.getId());
-        em.merge(uporabnik);
+
+        if (uporabnikStari != null) {
+            uporabnik.setId(uporabnikStari.getId());
+            em.merge(uporabnik);
+        } else {
+            log.info("Uporabnik s tem ID-jem ne obstaja.");
+        }
 
         return uporabnik;
     }

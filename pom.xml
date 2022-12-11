@@ -21,6 +21,9 @@
 
         <kumuluzee.version>4.1.0</kumuluzee.version>
         <postgresql.version>42.5.0</postgresql.version>
+        <kumuluzee-rest.version>1.5.1</kumuluzee-rest.version>
+        <kumuluzee-openapi.version>1.4.0</kumuluzee-openapi.version>
+        <kumuluzee-openapi-mp.version>1.4.0</kumuluzee-openapi-mp.version>
     </properties>
 
     <dependencyManagement>
@@ -37,6 +40,31 @@
                 <groupId>org.postgresql</groupId>
                 <artifactId>postgresql</artifactId>
                 <version>${postgresql.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.kumuluz.ee.rest</groupId>
+                <artifactId>kumuluzee-rest-core</artifactId>
+                <version>${kumuluzee-rest.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.parboiled</groupId>
+                <artifactId>parboiled-java</artifactId>
+                <version>1.4.1</version>
+            </dependency>
+            <dependency>
+                <groupId>com.kumuluz.ee.openapi</groupId>
+                <artifactId>kumuluzee-openapi-mp</artifactId>
+                <version>${kumuluzee-openapi.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.kumuluz.ee.openapi</groupId>
+                <artifactId>kumuluzee-openapi-mp-ui</artifactId>
+                <version>${kumuluzee-openapi-mp.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.kumuluz.ee.config</groupId>
+                <artifactId>kumuluzee-config-mp</artifactId>
+                <version>2.0.0</version>
             </dependency>
 
             <dependency>

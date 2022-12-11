@@ -242,7 +242,11 @@ public class UpravljanjeIzdelkovZrno {
             }
         }
 
-        float povpracnaCenaKategorije = vsotaCen / steviloIzdelkov;
+        float povpracnaCenaKategorije = 0;
+        if (steviloIzdelkov != 0) {
+            povpracnaCenaKategorije = vsotaCen / steviloIzdelkov;
+        }
+
         KategorijaPovprecjeCenDto kategorijaPovprecjeCenDto = new KategorijaPovprecjeCenDto();
         kategorijaPovprecjeCenDto.setPovpracje(povpracnaCenaKategorije);
         return kategorijaPovprecjeCenDto;
@@ -271,7 +275,11 @@ public class UpravljanjeIzdelkovZrno {
             }
         }
 
-        float povpracnaCenaTrgovine = vsotaCen / steviloIzdelkov;
+        float povpracnaCenaTrgovine = 0;
+        if (steviloIzdelkov != 0) {
+            povpracnaCenaTrgovine = vsotaCen / steviloIzdelkov;
+        }
+
         TrgovinaPovprecjeCenDto trgovinaPovprecjeCenDto = new TrgovinaPovprecjeCenDto();
         trgovinaPovprecjeCenDto.setPovprecje(povpracnaCenaTrgovine);
         return trgovinaPovprecjeCenDto;
