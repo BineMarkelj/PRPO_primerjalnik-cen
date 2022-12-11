@@ -13,7 +13,7 @@ public class NeveljavenIzdelekIzjemaExceptionMapper implements ExceptionMapper<N
     public Response toResponse(NeveljavenIzdelekIzjema neveljavenIzdelekIzjema) {
         return Response
                 .status(Response.Status.NOT_ACCEPTABLE)
-                .entity("{" + neveljavenIzdelekIzjema.getMessage() + "}")
+                .entity("{\"error_message\":\"" + neveljavenIzdelekIzjema.getMessage() + "\"}")
                 .build();
     }
 }

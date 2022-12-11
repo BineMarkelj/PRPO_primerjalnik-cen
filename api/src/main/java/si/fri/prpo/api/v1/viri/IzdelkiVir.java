@@ -119,6 +119,10 @@ public class IzdelkiVir {
             @APIResponse(
                     description = "Izdelek dodan",
                     responseCode = "201"
+            ),
+            @APIResponse(
+                    description = "Napaka pri dodajanju novega izdelka: Cena izdelka ne sme biti negativna.",
+                    responseCode = "406"
             )
     })
     public Response dodajIzdelek(
@@ -157,6 +161,10 @@ public class IzdelkiVir {
             @APIResponse(
                     description = "Izdelek s tem IDjem ne obstaja",
                     responseCode = "404"
+            ),
+            @APIResponse(
+                    description = "Napaka pri spreminjanju izdelka: Cena izdelka ne sme biti negativna.",
+                    responseCode = "406"
             )
     })
     public Response posodobiIzdelek(
