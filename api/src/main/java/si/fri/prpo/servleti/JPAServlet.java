@@ -2,6 +2,8 @@ package si.fri.prpo.servleti;
 
 import si.fri.prpo.entitete.Izdelek;
 import si.fri.prpo.zrna.IzdelkiZrno;
+import si.fri.prpo.zrna.UpravljanjeIzdelkovZrno;
+import si.fri.prpo.zunanjiViri.PretvoriCenoVDolarje;
 
 import javax.inject.Inject;
 import javax.persistence.criteria.CriteriaQuery;
@@ -20,6 +22,9 @@ public class JPAServlet extends HttpServlet {
     @Inject
     private IzdelkiZrno izdelkiZrno;
 
+    @Inject
+    PretvoriCenoVDolarje pretvoriCenoVDolarje;
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         PrintWriter pw = resp.getWriter();
@@ -35,10 +40,14 @@ public class JPAServlet extends HttpServlet {
             String opis = izdelek.getOpis();
             float cena = izdelek.getCena();
 
+            //preizkušanje zunanjega apija:
+            float cena_v_dolarjih = pretvoriCenoVDolarje.pretvoriCenoVDolarje(cena);
+
             pw.append("ID: " + id);
             pw.append(", Ime: " + ime);
             pw.append(", Opis: " + opis);
             pw.append(", Cena: " + cena);
+            pw.append(", Cena v dolarjih: " + cena_v_dolarjih);
             pw.append("\n");
         }
 

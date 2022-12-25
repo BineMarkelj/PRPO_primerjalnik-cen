@@ -3,6 +3,10 @@ kumuluzee:
   version: 1.0.0
   env:
     name: dev
+  dev:
+    scan-libraries:
+      - entitete
+      - storitve
   openapi-mp:
     enabled: true
     servlet:
@@ -13,6 +17,6 @@ kumuluzee:
       mapping: /openapi/ui
   datasources:
     - jndi-name: jdbc/PrimerjalnikCenDS
-      connection-url: jdbc:postgresql://localhost:5432/primerjalnikCen
-      username: postgres
-      password: postgres
+      connection-url: jdbc:postgresql://mel.db.elephantsql.com/uibkmnyz
+      username: uibkmnyz
+      password: ycWsntnDpOQ1bD-aC2KWaFwGkTgEcs45
