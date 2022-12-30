@@ -74,7 +74,7 @@ public class UpravljanjeIzdelkovZrno {
 
             //ime
             if (izdelek.getIme() == null || izdelek.getIme().isEmpty()) {
-                log.info("Atribut podanega izdelka je prazen.");
+                log.info("Atribut ime podanega izdelka je prazen.");
                 napaka = true;
             } else {
                 izdelekDto.setIme(izdelek.getIme());
@@ -82,7 +82,7 @@ public class UpravljanjeIzdelkovZrno {
 
             //opis
             if (izdelek.getOpis() == null || izdelek.getOpis().isEmpty()) {
-                log.info("Atribut podanega izdelka je prazen.");
+                log.info("Atribut opis podanega izdelka je prazen.");
                 napaka = true;
             } else {
                 izdelekDto.setOpis(izdelek.getOpis());
@@ -90,7 +90,7 @@ public class UpravljanjeIzdelkovZrno {
 
             //cena
             if (izdelek.getCena() == 0.0f) {
-                log.info("Atribut podanega izdelka je prazen.");
+                log.info("Atribut cena podanega izdelka je prazen.");
                 napaka = true;
             } else {
                 izdelekDto.setCena(izdelek.getCena());
@@ -98,7 +98,7 @@ public class UpravljanjeIzdelkovZrno {
 
             //id
             if (izdelek.getId() == null) {
-                log.info("Atribut podanega izdelka je prazen.");
+                log.info("Atribut id podanega izdelka je prazen.");
                 napaka = true;
             } else {
                 izdelekDto.setId(izdelek.getId());
@@ -106,7 +106,7 @@ public class UpravljanjeIzdelkovZrno {
 
             //kategorija
             if (izdelek.getKategorija() == null) {
-                log.info("Atribut podanega izdelka je prazen.");
+                log.info("Atribut kategorija podanega izdelka je prazen.");
                 napaka = true;
             } else {
                 izdelekDto.setKategorija(izdelek.getKategorija());
@@ -114,7 +114,7 @@ public class UpravljanjeIzdelkovZrno {
 
             //trgovina
             if (izdelek.getTrgovina() == null) {
-                log.info("Atribut podanega izdelka je prazen.");
+                log.info("Atribut trgovina podanega izdelka je prazen.");
                 napaka = true;
             } else {
                 izdelekDto.setTrgovina(izdelek.getTrgovina());

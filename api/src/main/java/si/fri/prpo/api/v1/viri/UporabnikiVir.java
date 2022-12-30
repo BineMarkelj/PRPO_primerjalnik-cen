@@ -1,5 +1,6 @@
 package si.fri.prpo.api.v1.viri;
 
+import com.kumuluz.ee.cors.annotations.CrossOrigin;
 import com.kumuluz.ee.rest.beans.QueryParameters;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
@@ -29,10 +30,11 @@ import java.util.List;
         ref = "Uporabniki",
         description = "API metode za operacije nad uporabniki"
 )
+@ApplicationScoped
 @Path("uporabniki")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-@ApplicationScoped
+@CrossOrigin(supportedMethods = "GET, POST, HEAD, DELETE, OPTIONS")
 public class UporabnikiVir {
 
     @Context
